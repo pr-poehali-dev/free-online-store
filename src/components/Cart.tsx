@@ -20,6 +20,7 @@ interface CartProps {
   items: CartItem[];
   onUpdateQuantity: (productId: number, quantity: number) => void;
   onRemoveItem: (productId: number) => void;
+  onCheckout: () => void;
 }
 
 const Cart = ({
@@ -28,6 +29,7 @@ const Cart = ({
   items,
   onUpdateQuantity,
   onRemoveItem,
+  onCheckout,
 }: CartProps) => {
   const total = items.reduce(
     (sum, item) => sum + item.price * item.quantity,
@@ -128,7 +130,7 @@ const Cart = ({
             </div>
 
             <div className="space-y-2">
-              <Button className="w-full" size="lg">
+              <Button className="w-full" size="lg" onClick={() => onCheckout()}>
                 <Icon name="CreditCard" size={16} className="mr-2" />
                 Оформить заказ
               </Button>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import Header from "@/components/Header";
 import ProductGrid from "@/components/ProductGrid";
 import Cart, { CartItem } from "@/components/Cart";
+import Checkout from "@/components/Checkout";
 import Footer from "@/components/Footer";
 import { Product } from "@/components/ProductCard";
 
@@ -87,6 +88,7 @@ const demoProducts: Product[] = [
 const Index = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
 
   const addToCart = (product: Product) => {
     setCartItems((prev) => {
@@ -119,6 +121,10 @@ const Index = () => {
   };
 
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  const cartTotal = cartItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0,
+  );
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -136,6 +142,17 @@ const Index = () => {
         items={cartItems}
         onUpdateQuantity={updateQuantity}
         onRemoveItem={removeItem}
+        onCheckout={() => {
+          setIsCartOpen(false);
+          setIsCheckoutOpen(true);
+        }}
+      />
+
+      <Checkout
+        isOpen={isCheckoutOpen}
+        onClose={() => setIsCheckoutOpen(false)}
+        items={cartItems}
+        total={cartTotal}
       />
     </div>
   );
